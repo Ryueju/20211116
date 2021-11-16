@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.eju.prj.member.service.MemberMapper">
+	
+	<select id="memberSelectList" resultType="co.eju.prj.member.service.MemberVO">
+	SELECT * FROM MEMBER
+	</select>
+		
+	<select id="memberSelect" resultType="co.eju.prj.member.service.MemberVO">
+	SELECT * FROM MEMBER
+	WHERE ID = #{id}
+		<if test="password !=null"> <!--로그인 체크시 화용  -->
+			AND PASSWORD = #{password}
+		</if>
+	</select>
+	
+	<select id="memberInsert" parameterType="co.eju.prj.member.service.MemberVO">
+		INSERT INTO MEMBER
+		VALUES(#{id},#{password},#{name},#{tel},#{address},#{author})
+	</select>
+	
+	<select id="memberDelete" parameterType="co.eju.prj.member.service.MemberVO">
+		DELETE FROM MEMBER WHERE ID = #{id}
+	</select>
+	
+	<select id="memberUpdate" parameterType="co.eju.prj.member.service.MemberVO">
+		UPDATE MEMBER SET PASSWORD = #{password}, NAME = #{name}, TEL = #{tel}, ADDRESS = #{address}, AUTHOR = #{author}
+		WHERE ID = #{id}
+	</select>
+	
+	<select id="memberIdCheck" resultType="boolean">
+		SELECT IF(COUNT(*)=1, 1,0)  <!--아이디가 존재하면1 true, 아니면 0 false가 리턴됨  -->
+				<!-- count가 1과 같으면 1, 아니면0을 리턴 -->
+		FROM MEMBER
+		WHERE ID=#{id}
+	</select>
+</mapper>
